@@ -1,0 +1,28 @@
+{
+  "name": "layland",
+  "version": "1.0.0",
+  "description": "Cytoscape.js-based graph layout and analysis tool",
+  "scripts": {
+    "start": "node server.js",
+    "build": "webpack"
+  },
+  "author": "Hasan Balcı",
+  "license": "MIT",
+  "dependencies": {
+    "bootstrap": "4.3.1",
+    "cytoscape": "^3.5.7",
+    "cytoscape-cola": "^2.3.0",
+    "cytoscape-cose-bilkent": "github:cytoscape/cytoscape.js-cose-bilkent#unstable",
+    "cytoscape-fcose": "^1.0.0",
+    "cytoscape-graphml": "1.0.6",
+    "cytoscape-layvo": "github:iVis-at-Bilkent/cytoscape.js-layvo#master",
+    "express": "^4.17.0",
+    "file-saver": "^2.0.2",
+    "jquery": "^3.4.1",
+    "popper.js": "1.15.0"
+  },
+  "devDependencies": {
+    "webpack": "^4.32.0",
+    "webpack-cli": "^3.3.2"
+  }
+}

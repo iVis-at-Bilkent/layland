@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>layland</title>
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <link href="src/css/style.css" rel="stylesheet">    
+  
+  </head>
+  <body>	
+    <input id="inputFile" type='file' style="display: none" />
+    <div id="toolbar" class="btn-toolbar mt-2 ml-3" role="toolbar" aria-label="Toolbar with button groups">
+      
+      <div class="btn-group mr-5" role="group" aria-label="First group">
+        <button id="openFile" type="button" class="btn btn-secondary  fa fa-folder-open" data-toggle="tooltip" title="Load graphml or tsv file"></button>
+        <button id="saveFile" type="button" class="btn btn-secondary fa fa-save" data-toggle="tooltip" title="Save as graphml"></button>
+        <button id="saveJPG" type="button" class="btn btn-secondary fa fa-image" data-toggle="tooltip" title="Save as JPG"></button>
+        <button type="button" class="btn btn-secondary fa fa-info-circle" data-toggle="modal" data-target="#exampleModal" title="Info" ></button>
+      </div>
+      
+      <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title text-secondary" id="exampleModalLabel">Info</h5>
+            </div>
+            <div class="modal-body">
+              <table class="table table-sm table-striped text-dark">
+                <tr>
+                  <th scope="col" class="text-secondary"  style="width: 25%">Key</th>
+                  <th scope="col" class="text-secondary"  style="width: 75%">Functionality</th>
+                </tr>
+                <tr><td>"n"</td><td><span class="text-primary">add new node</span></td></tr>
+                <tr><td>"e"</td><td><span class="text-primary">add edge between two selected nodes</span></td></tr>
+                <tr><td>"Delete"</td><td><span class="text-primary">delete element</span></td></tr>        
+                <tr><td>"l"</td><td><span class="text-primary">run layout</span></td></tr>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>      
+
+      <div class="col-xs-3 mr-2">
+        <select id="layout" class="form-control">
+          <option>fCoSE</option>
+          <option>CoSE</option>
+          <option>Cola</option>
+          <option>Random</option>
+        </select>
+      </div>
+      
+      <div class="btn-group mr-5" role="group" aria-label="First group">
+        <button id="runLayout" type="button" class="btn btn-secondary fa fa-play" data-toggle="tooltip" title="Run layout"></button>
+      </div>
+	  
+      <div class="col-xs-3 mr-5">
+        <select id="samples" class="form-control">
+          <option>sample1</option>
+          <option>sample2</option>
+          <option>sample3</option>
+          <option>sample4</option>
+          <option>sample5</option>	
+          <option>sample6</option>
+          <option>sample7</option>          
+        </select>
+      </div>  
+		
+      <span id="fileName" class="text-secondary mt-2 mr-5">sample1.graphml</span>
+  
+    </div>
+    
+    <div id="inspector">
+      
+      <div id="graphProperties">
+        <h5 class="text-info ml-2 mt-1">Graph Properties</h5>
+        <table class="table table-sm table-striped text-dark">
+          <tr><td style="width: 60%"><span class="ml-1">Nodes: </span></td><td><span id="numOfNodes" class="text-primary"></span></td></tr>
+          <tr><td><span class="ml-1">Edges: </span></td><td><span id="numOfEdges" class="text-primary"></span></td></tr>
+          <tr><td><span class="ml-1">Time: </span></td><td><span id="layoutTime" class="text-primary">-</span></td></tr>        
+          <tr><td><span class="ml-1">Edge crosses: </span></td><td><span id="numberOfEdgeCrosses" class="text-primary"></span></td></tr>
+          <tr><td><span class="ml-1">Node overlaps: </span></td><td><span id="numberOfNodeOverlaps" class="text-primary"></span></td></tr>
+          <tr><td><span class="ml-1">Avg. edge length: </span></td><td><span id="averageEdgeLength" class="text-primary"></span></td></tr>
+          <tr><td><span class="ml-1">Total area: </span></td><td><span id="totalArea" class="text-primary"></span></td></tr>
+        </table>
+      </div>
+      <hr>
+      <div id="layoutOptions">
+        <h5 class="text-info ml-2">Layout Options</h5>
+        <table class="table table-sm table-borderless text-dark">
+          <tr><td class="align-middle" style="width: 50%"><span class="ml-1 align-middle">Quality</span></td>
+              <td><span>
+                <select id="quality" class="form-control form-control-sm">
+                  <option>draft</option>
+                  <option>default</option>
+                  <option selected="selected">proof</option>	  
+                </select></span>
+              </td>
+          </tr>
+          <tr><td class="align-middle"><span class="ml-1">Randomize </span></td>
+              <td><div class="checkbox">
+                  <input type="checkbox" id="randomize" value="" checked>
+                  </div>
+              </td>
+          </tr>
+        </table>
+      </div>
+      
+    </div>
+    
+    <div id="cy"></div>
+    
+    <script src="cytoscape-tsv.js"></script>
+	  <script src="bundle.js"></script>
+  </body>
+</html>
