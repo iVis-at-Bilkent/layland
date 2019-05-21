@@ -7,7 +7,6 @@ $("body").on("change", "#inputFile", function(e, fileObject) {
   var inputFile = this.files[0] || fileObject;
 
   if (inputFile) {
-    console.log(inputFile.name);
     var fileExtension = inputFile.name.split('.').pop();
     var r = new FileReader();
     r.onload = function(e) {
@@ -26,7 +25,7 @@ $("body").on("change", "#inputFile", function(e, fileObject) {
       if(!fileObject)
         document.getElementById("fileName").innerHTML = inputFile.name;
       
-      if(inputFile.name == "/samples/sample1.graphml"){
+      if(inputFile.name == "samples/sample1.graphml"){
         cy.nodes().forEach(function(node, i){
           let width = [30, 70, 110];
           let size = width[i%3];
@@ -144,7 +143,7 @@ function loadSample(fileName){
 
 $("body").on("change", "#samples", function() {
 	let samples = document.getElementById("samples");
-	let graph = loadSample("/samples/"+samples.options[samples.selectedIndex].text+".graphml");
+	let graph = loadSample("samples/"+samples.options[samples.selectedIndex].text+".graphml");
 	$("#inputFile").trigger("change", [graph]);
   document.getElementById("fileName").innerHTML = samples.options[samples.selectedIndex].text + ".graphml";
 });
