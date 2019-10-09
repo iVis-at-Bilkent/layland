@@ -73,39 +73,43 @@ document.getElementById("saveJPG").addEventListener("click", function(){
 });
 
 function evaluate(layoutTime){
-  let graphProperties = cy.layvo("get").generalProperties();
+  let evaluate = document.getElementById("evaluate").checked;
+  let graphProperties;
+  if(evaluate)
+    graphProperties = cy.layvo("get").generalProperties();
 	document.getElementById("numOfNodes").innerHTML = cy.nodes().length;
-	document.getElementById("numOfEdges").innerHTML = cy.edges().length;	
-  document.getElementById("layoutTime").innerHTML = Math.round(layoutTime * 10 ) / 10 + " ms"; 
-	document.getElementById("numberOfEdgeCrosses").innerHTML = graphProperties.numberOfEdgeCrosses;
-	document.getElementById("numberOfNodeOverlaps").innerHTML = graphProperties.numberOfNodeOverlaps;
-	document.getElementById("averageEdgeLength").innerHTML = Math.round(graphProperties.averageEdgeLength * 10 ) / 10;
-	document.getElementById("totalArea").innerHTML = Math.round(graphProperties.totalArea * 10 ) / 10;
+	document.getElementById("numOfEdges").innerHTML = cy.edges().length;
+  document.getElementById("layoutTime").innerHTML = evaluate ? Math.round(layoutTime * 10 ) / 10 + " ms" : "-"; 
+  document.getElementById("numberOfEdgeCrosses").innerHTML = evaluate ? graphProperties.numberOfEdgeCrosses : "-";
+  document.getElementById("numberOfNodeOverlaps").innerHTML = evaluate ? graphProperties.numberOfNodeOverlaps : "-";
+  document.getElementById("averageEdgeLength").innerHTML = evaluate ? Math.round(graphProperties.averageEdgeLength * 10 ) / 10 : "-";
+  document.getElementById("totalArea").innerHTML = evaluate ? Math.round(graphProperties.totalArea * 10 ) / 10 : "-";
 }
 
 $("body").on("click", "#runLayout", function(){
   let layoutType = document.getElementById("layout");
   let quality = $("#quality").find("option:selected").text();
   let randomize = $("#randomize").is(":checked");
+  let packComponents = document.getElementById("packComponents").checked;
 
   let startTime;
   let endTime;
   
   if(layoutType.options[layoutType.selectedIndex].text == "fCoSE") {
     startTime = performance.now();
-    cy.layout({name: "fcose", quality: quality, randomize: randomize, tile: true}).run();
+    cy.layout({name: "fcose", padding: 20, quality: quality, randomize: randomize, packComponents: packComponents}).run();
     endTime = performance.now();
     evaluate(endTime - startTime);
   }
   else if(layoutType.options[layoutType.selectedIndex].text == "CoSE"){
     startTime = performance.now();
-    cy.layout({name: "cose-bilkent", quality:quality, randomize: randomize, animationDuration: 1000}).run();
+    cy.layout({name: "cose-bilkent", padding: 20, quality:quality, randomize: randomize, animationDuration: 1000}).run();
     endTime = performance.now();
     evaluate(endTime - startTime);
   }
   else if(layoutType.options[layoutType.selectedIndex].text == "Cola"){
     startTime = performance.now();
-    cy.layout({name: "cola", randomize: true, animate: false}).run();
+    cy.layout({name: "cola", padding: 20, randomize: true, animate: false}).run();
     endTime = performance.now();
     evaluate(endTime - startTime);
   }
@@ -148,24 +152,24 @@ $("body").on("change", "#samples", function() {
   document.getElementById("fileName").innerHTML = samples.options[samples.selectedIndex].text + ".graphml";
 });
 
-$( document ).keypress(function( event ) {
+$( document ).keydown(function( event ) {
   let keycode = (event.keyCode ? event.keyCode : event.which);
-  if ( keycode == 110 ) {
+  if ( keycode == 78 ) {
     event.preventDefault();
     cy.add({
         group: 'nodes'
     });
   }
-  else if ( keycode == 101 ) {
+  else if ( keycode == 69 ) {
     event.preventDefault();
     if(cy.nodes(":selected").length == 2)
       cy.add({ group: 'edges', data: {source: cy.nodes(":selected")[0].data("id"), target: cy.nodes(":selected")[1].data("id") } });
   }
-  else if ( keycode == 127 ) {
+  else if ( keycode == 46 ) {
     event.preventDefault();
     cy.elements(":selected").remove();
   }
-  else if ( keycode == 108 ) {
+  else if ( keycode == 76 ) {
     event.preventDefault();
     $("#runLayout").trigger("click");
   }

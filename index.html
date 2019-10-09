@@ -72,7 +72,7 @@
     <div id="inspector">
       
       <div id="graphProperties">
-        <h5 class="text-info ml-2 mt-1">Graph Properties</h5>
+        <h5 class="text-info ml-2 mt-1">Graph Properties&nbsp;&nbsp;&nbsp;<input type="checkbox" id="evaluate" style="vertical-align: middle" checked></h5>				
         <table class="table table-sm table-striped text-dark">
           <tr><td style="width: 60%"><span class="ml-1">Nodes: </span></td><td><span id="numOfNodes" class="text-primary"></span></td></tr>
           <tr><td><span class="ml-1">Edges: </span></td><td><span id="numOfEdges" class="text-primary"></span></td></tr>
@@ -83,11 +83,11 @@
           <tr><td><span class="ml-1">Total area: </span></td><td><span id="totalArea" class="text-primary"></span></td></tr>
         </table>
       </div>
-      <hr>
+      <hr style="margin-bottom: 0">
       <div id="layoutOptions">
         <h5 class="text-info ml-2">Layout Options</h5>
-        <table class="table table-sm table-borderless text-dark">
-          <tr><td class="align-middle" style="width: 50%"><span class="ml-1 align-middle">Quality</span></td>
+        <table class="table table-sm table-striped text-dark">
+          <tr><td class="align-middle" style="width: 60%"><span class="ml-1 align-middle">Quality</span></td>
               <td><span>
                 <select id="quality" class="form-control form-control-sm">
                   <option>draft</option>
@@ -100,8 +100,15 @@
               <td><div class="checkbox">
                   <input type="checkbox" id="randomize" value="" checked>
                   </div>
-              </td>
+              </td>						
           </tr>
+          <tr><td class="align-middle"><span class="ml-1">Pack Components</span></td>
+							<td><div class="checkbox">
+                  <input type="checkbox" id="packComponents" value="" checked>
+                  </div>
+              </td>							
+          </tr>					
+
         </table>
       </div>
       

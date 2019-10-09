@@ -5,6 +5,7 @@ import fcose from "cytoscape-fcose";
 import coseBilkent from "cytoscape-cose-bilkent";
 import cola from "cytoscape-cola";
 import layvo from "cytoscape-layvo";
+import layoutUtilities from "cytoscape-layout-utilities";
 import $ from 'jquery';
 import {evaluate} from './menu';
 
@@ -14,10 +15,12 @@ cytoscape.use(coseBilkent);
 cytoscape.use(cola);
 cytoscape.use(tsv);
 cytoscape.use(layvo);
+cytoscape.use(layoutUtilities);
 
 let cy = window.cy = cytoscape({
   container: document.getElementById('cy'),
   ready: function(){
+    this.layoutUtilities({componentSpacing: 30, desiredAspectRatio: $(this.container()).width() / $(this.container()).height()});
     this.nodes().forEach(function(node, i){
       let width = [30, 70, 110];
       let size = width[i%3];
@@ -27,7 +30,7 @@ let cy = window.cy = cytoscape({
     let startTime;
     let endTime;
     startTime = performance.now();
-    this.layout({name: "fcose", tile: true, padding: 20}).run();
+    this.layout({name: "fcose", padding: 20}).run();
     endTime = performance.now();
     let graphProperties = this.layvo("get").generalProperties();
     document.getElementById("numOfNodes").innerHTML = this.nodes().length;
@@ -43,14 +46,7 @@ let cy = window.cy = cytoscape({
     {
       selector: 'node',
       style: {
-//        'label': 'data(label)',
-//          'shape': 'rectangle'
         'background-color': '#ad1a66',
-//        'border-color': '#ad1a66',
-//        "border-width": 1,
-//        F68209
-//0B8079
-//461622
       }
     },
     {
@@ -65,12 +61,19 @@ let cy = window.cy = cytoscape({
     {
       selector: 'edge',
       style: {
-'line-color': '#ad1a66'
+        'line-color': '#ad1a66'
       }
     },
     {
-      selector: ':selected',
+      selector: 'node:selected',
       style: {
+        'background-color': '#8FBC8F'
+      }
+    },
+    {
+      selector: 'edge:selected',
+      style: {
+        'line-color': '#8FBC8F'
       }
     }
   ],
