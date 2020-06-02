@@ -2,6 +2,7 @@ import $ from 'jquery';
 import 'bootstrap';
 import {cy} from './cy-utilities';
 import { saveAs } from 'file-saver';
+import {layoutProperties} from './layoutProperties';
 
 $("body").on("change", "#inputFile", function(e, fileObject) {
   var inputFile = this.files[0] || fileObject;
@@ -88,22 +89,18 @@ function evaluate(layoutTime){
 
 $("body").on("click", "#runLayout", function(){
   let layoutType = document.getElementById("layout");
-  let quality = $("#quality").find("option:selected").text();
-  let randomize = $("#randomize").is(":checked");
-  let packComponents = document.getElementById("packComponents").checked;
-
   let startTime;
   let endTime;
   
   if(layoutType.options[layoutType.selectedIndex].text == "fCoSE") {
     startTime = performance.now();
-    cy.layout({name: "fcose", padding: 20, quality: quality, randomize: randomize, packComponents: packComponents}).run();
+    cy.layout(layoutProperties.getFcoseProperties()).run();
     endTime = performance.now();
     evaluate(endTime - startTime);
   }
   else if(layoutType.options[layoutType.selectedIndex].text == "CoSE"){
     startTime = performance.now();
-    cy.layout({name: "cose-bilkent", padding: 20, quality:quality, randomize: randomize, animationDuration: 1000}).run();
+    cy.layout(layoutProperties.getCoseProperties()).run();
     endTime = performance.now();
     evaluate(endTime - startTime);
   }
@@ -173,6 +170,15 @@ $( document ).keydown(function( event ) {
     event.preventDefault();
     $("#runLayout").trigger("click");
   }
+});
+
+document.getElementById("saveLayoutProperties").addEventListener("click", function(){
+  layoutProperties.setCurrentProperties();
+});
+
+
+$('#layoutOptionsModal').on('show.bs.modal', function (e) {
+  layoutProperties.setModalValues();
 });
 
 export {evaluate};
