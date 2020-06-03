@@ -8,4 +8,8 @@ module.exports = {
 		filename: 'bundle.js',
 		path: path.resolve(__dirname, ''),
 	},
+	optimization: {
+		// We do not want to minimize our code.
+		minimize: false
+	}  
 };

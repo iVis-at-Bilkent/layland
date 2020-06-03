@@ -34,6 +34,10 @@ $("body").on("change", "#inputFile", function(e, fileObject) {
           node.css("height", size);
         });
       }
+      layoutProperties.setFcoseProperty("fixedNodeConstraint", undefined);
+      layoutProperties.setFcoseProperty("alignmentConstraint", undefined);
+      layoutProperties.setFcoseProperty("relativePlacementConstraint", undefined);
+      document.getElementById("fcoseConstraintFile").value = "";
       
       $("#runLayout").trigger("click");
     });
@@ -44,8 +48,43 @@ $("body").on("change", "#inputFile", function(e, fileObject) {
   $("#inputFile").val(null);
 });
 
+$("body").on("change", "#fcoseConstraintFile", function(e, fileObject) {
+  var inputFile = this.files[0] || fileObject;
+  if (inputFile) {
+    var r = new FileReader();
+    r.onload = function(e) {
+      var content = JSON.parse(e.target.result);
+      layoutProperties.setFcoseProperty("fixedNodeConstraint", undefined);
+      layoutProperties.setFcoseProperty("alignmentConstraint", undefined);
+      layoutProperties.setFcoseProperty("relativePlacementConstraint", undefined);
+      if(content.fixedNodeConstraint) {
+        layoutProperties.setFcoseProperty("fixedNodeConstraint", content.fixedNodeConstraint);
+      }
+      if(content.alignmentConstraint) {
+        layoutProperties.setFcoseProperty("alignmentConstraint", content.alignmentConstraint);
+      }      
+      if(content.relativePlacementConstraint) {
+        layoutProperties.setFcoseProperty("relativePlacementConstraint", content.relativePlacementConstraint);
+      }      
+    };
+    r.addEventListener('loadend', function(){
+      document.getElementById("fcoseConstraintFile").value = "";
+      if(!fileObject)
+        document.getElementById("fcoseConstraintFileName").innerHTML = inputFile.name;
+    });
+    r.readAsText(inputFile);
+  } else { 
+    alert("Failed to load file");
+  }
+  $("#inputFile").val(null);
+});
+
 document.getElementById("openFile").addEventListener("click", function(){
   document.getElementById("inputFile").click();
+});
+
+document.getElementById("openFcoseConstraintFile").addEventListener("click", function(){
+  document.getElementById("fcoseConstraintFile").click();
 });
 
 function download(filename, text) {
@@ -63,9 +102,14 @@ function download(filename, text) {
     }
 }
 
-document.getElementById("saveFile").addEventListener("click", function(){
+document.getElementById("saveFileGraphml").addEventListener("click", function(){
   let graphString = cy.graphml();
   download('graph.graphml', graphString);
+});
+
+document.getElementById("saveFileJson").addEventListener("click", function(){
+  let graphString = cy.json().elements;
+  download('graph.json', JSON.stringify(graphString));
 });
 
 document.getElementById("saveJPG").addEventListener("click", function(){
@@ -93,8 +137,15 @@ $("body").on("click", "#runLayout", function(){
   let endTime;
   
   if(layoutType.options[layoutType.selectedIndex].text == "fCoSE") {
+//    let relativePlacementConstraints = [];
+//    cy.edges().forEach(function(edge){
+//      relativePlacementConstraints.push({top: edge.source().id(), bottom: edge.target().id(), gap: 100});
+//    });
+//    let constraints = {relativePlacementConstraint: relativePlacementConstraints};
+//    console.log(JSON.stringify(constraints, null, 2));   
     startTime = performance.now();
-    cy.layout(layoutProperties.getFcoseProperties()).run();
+    let options = layoutProperties.getFcoseProperties();
+    cy.layout(options).run();
     endTime = performance.now();
     evaluate(endTime - startTime);
   }
@@ -106,7 +157,8 @@ $("body").on("click", "#runLayout", function(){
   }
   else if(layoutType.options[layoutType.selectedIndex].text == "Cola"){
     startTime = performance.now();
-    cy.layout({name: "cola", padding: 20, randomize: true, animate: false}).run();
+    cy.layout({name: "cola", flow:  { axis: 'y', minSeparation: 100 }, randomize: true, animate: false, 
+    unconstrIter: 50, userConstIter: 100, allConstIter: 200}).run();
     endTime = performance.now();
     evaluate(endTime - startTime);
   }
@@ -144,7 +196,8 @@ function loadSample(fileName){
 
 $("body").on("change", "#samples", function() {
 	let samples = document.getElementById("samples");
-	let graph = loadSample("samples/"+samples.options[samples.selectedIndex].text+".graphml");
+  let filename = samples.options[samples.selectedIndex].value;
+	let graph = loadSample("samples/"+filename+".graphml");
 	$("#inputFile").trigger("change", [graph]);
   document.getElementById("fileName").innerHTML = samples.options[samples.selectedIndex].text + ".graphml";
 });

@@ -20,7 +20,7 @@ let defaultCoseProperties = {
   name: "cose-bilkent",
   quality: "default",
   randomize: true,
-  animate: true,
+  animate: "end",
   animationDuration: 1000,
   uniformNodeDimensions: false,
   tile: true,
@@ -53,7 +53,12 @@ layoutProperties.getColaProperties = function() {
   return currentColaProperties;
 };
 
+layoutProperties.setFcoseProperty = function(property, value) {
+  currentFcoseProperties[property] = value;
+};
+
 layoutProperties.setCurrentProperties = function() {
+  // fcose properties
   let fcoseQuality = "default";
   if (document.getElementById("fcose_quality").selectedIndex === 0) {
     fcoseQuality = "draft";
@@ -67,7 +72,9 @@ layoutProperties.setCurrentProperties = function() {
   currentFcoseProperties.uniformNodeDimensions = document.getElementById("fcose_uniformNodeDimensions").checked;
   currentFcoseProperties.animate = document.getElementById("fcose_animate").checked;
   currentFcoseProperties.tile = document.getElementById("fcose_tile").checked;
+  currentFcoseProperties.initialEnergyOnIncremental = parseFloat(document.getElementById("fcose_initialEnergyOnIncremental").value);
 
+  // cose properties
   let coseQuality = "default";
   if (document.getElementById("cose_quality").selectedIndex === 0) {
     coseQuality = "draft";
@@ -78,12 +85,14 @@ layoutProperties.setCurrentProperties = function() {
   currentCoseProperties.quality = coseQuality;
   currentCoseProperties.randomize = document.getElementById("cose_randomize").checked;
   currentCoseProperties.uniformNodeDimensions = document.getElementById("cose_uniformNodeDimensions").checked;
-  currentCoseProperties.animate = document.getElementById("cose_animate").checked;
+  currentCoseProperties.animate = document.getElementById("cose_animate").checked ? "end" : false;
   currentCoseProperties.tile = document.getElementById("cose_tile").checked;
+  currentCoseProperties.initialEnergyOnIncremental = parseFloat(document.getElementById("cose_initialEnergyOnIncremental").value);  
 };
 
 
 layoutProperties.setModalValues = function() {
+  // fcose properties
   let fcoseSelectedIndex;
   if (currentFcoseProperties.quality == "draft") {
     fcoseSelectedIndex = 0;
@@ -100,7 +109,9 @@ layoutProperties.setModalValues = function() {
   document.getElementById("fcose_uniformNodeDimensions").checked = currentFcoseProperties.uniformNodeDimensions;
   document.getElementById("fcose_animate").checked = currentFcoseProperties.animate;
   document.getElementById("fcose_tile").checked = currentFcoseProperties.tile;
+  document.getElementById("fcose_initialEnergyOnIncremental").value = currentFcoseProperties.initialEnergyOnIncremental;
 
+  // cose properties
   let coseSelectedIndex;
   if (currentCoseProperties.quality == "draft") {
     coseSelectedIndex = 0;
@@ -114,8 +125,14 @@ layoutProperties.setModalValues = function() {
   document.getElementById("cose_quality").selectedIndex = coseSelectedIndex;
   document.getElementById("cose_randomize").checked = currentCoseProperties.randomize;
   document.getElementById("cose_uniformNodeDimensions").checked = currentCoseProperties.uniformNodeDimensions;
-  document.getElementById("cose_animate").checked = currentCoseProperties.animate;
+  let animate;
+  if(currentCoseProperties.animate == "end")
+    animate = true;
+  else
+    animate = false;
+  document.getElementById("cose_animate").checked = animate;
   document.getElementById("cose_tile").checked = currentCoseProperties.tile;
+  document.getElementById("cose_initialEnergyOnIncremental").value = currentCoseProperties.initialEnergyOnIncremental;
 };
 
 export {layoutProperties};
