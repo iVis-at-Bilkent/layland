@@ -17,6 +17,9 @@ $("body").on("change", "#inputFile", function(e, fileObject) {
         cy.graphml({layoutBy: 'null'});
         cy.graphml(content);
       }
+      else if(fileExtension == "json"){
+        cy.json({elements: JSON.parse(content)});
+      }
       else{
         var tsv = cy.tsv();
         tsv.importTo(content);        
@@ -141,6 +144,7 @@ $("body").on("click", "#runLayout", function(){
 //    cy.edges().forEach(function(edge){
 //      relativePlacementConstraints.push({top: edge.source().id(), bottom: edge.target().id(), gap: 100});
 //    });
+//    layoutProperties.setFcoseProperty('relativePlacementConstraint', relativePlacementConstraints);
 //    let constraints = {relativePlacementConstraint: relativePlacementConstraints};
 //    console.log(JSON.stringify(constraints, null, 2));   
     startTime = performance.now();

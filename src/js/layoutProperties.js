@@ -12,6 +12,8 @@ let defaultFcoseProperties = {
   uniformNodeDimensions: false,
   animate: true,
   tile: true,
+  nodeRepulsion: 4500,
+  idealEdgeLength: 50,
   initialEnergyOnIncremental: 0.3,
   step: "all"
 };
@@ -24,6 +26,8 @@ let defaultCoseProperties = {
   animationDuration: 1000,
   uniformNodeDimensions: false,
   tile: true,
+  nodeRepulsion: 4500,
+  idealEdgeLength: 50,
   initialEnergyOnIncremental: 0.3
 };
 
@@ -72,6 +76,8 @@ layoutProperties.setCurrentProperties = function() {
   currentFcoseProperties.uniformNodeDimensions = document.getElementById("fcose_uniformNodeDimensions").checked;
   currentFcoseProperties.animate = document.getElementById("fcose_animate").checked;
   currentFcoseProperties.tile = document.getElementById("fcose_tile").checked;
+  currentFcoseProperties.nodeRepulsion = parseFloat(document.getElementById("fcose_nodeRepulsion").value);
+  currentFcoseProperties.idealEdgeLength = parseFloat(document.getElementById("fcose_idealEdgeLength").value);
   currentFcoseProperties.initialEnergyOnIncremental = parseFloat(document.getElementById("fcose_initialEnergyOnIncremental").value);
 
   // cose properties
@@ -87,6 +93,8 @@ layoutProperties.setCurrentProperties = function() {
   currentCoseProperties.uniformNodeDimensions = document.getElementById("cose_uniformNodeDimensions").checked;
   currentCoseProperties.animate = document.getElementById("cose_animate").checked ? "end" : false;
   currentCoseProperties.tile = document.getElementById("cose_tile").checked;
+  currentCoseProperties.nodeRepulsion = parseFloat(document.getElementById("cose_nodeRepulsion").value);
+  currentCoseProperties.idealEdgeLength = parseFloat(document.getElementById("cose_idealEdgeLength").value);
   currentCoseProperties.initialEnergyOnIncremental = parseFloat(document.getElementById("cose_initialEnergyOnIncremental").value);  
 };
 
@@ -109,6 +117,8 @@ layoutProperties.setModalValues = function() {
   document.getElementById("fcose_uniformNodeDimensions").checked = currentFcoseProperties.uniformNodeDimensions;
   document.getElementById("fcose_animate").checked = currentFcoseProperties.animate;
   document.getElementById("fcose_tile").checked = currentFcoseProperties.tile;
+  document.getElementById("fcose_nodeRepulsion").value = currentFcoseProperties.nodeRepulsion;
+  document.getElementById("fcose_idealEdgeLength").value = currentFcoseProperties.idealEdgeLength;
   document.getElementById("fcose_initialEnergyOnIncremental").value = currentFcoseProperties.initialEnergyOnIncremental;
 
   // cose properties
@@ -132,6 +142,8 @@ layoutProperties.setModalValues = function() {
     animate = false;
   document.getElementById("cose_animate").checked = animate;
   document.getElementById("cose_tile").checked = currentCoseProperties.tile;
+  document.getElementById("cose_nodeRepulsion").value = currentCoseProperties.nodeRepulsion;
+  document.getElementById("cose_idealEdgeLength").value = currentCoseProperties.idealEdgeLength;
   document.getElementById("cose_initialEnergyOnIncremental").value = currentCoseProperties.initialEnergyOnIncremental;
 };
 

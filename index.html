@@ -13,9 +13,14 @@
     <div id="toolbar" class="btn-toolbar mt-2 ml-3" role="toolbar" aria-label="Toolbar with button groups">
       
       <div class="btn-group mr-5" role="group" aria-label="First group">
-        <button id="openFile" type="button" class="btn btn-secondary  fa fa-folder-open" data-toggle="tooltip" title="Load graphml or tsv file"></button>
-        <button id="saveFileGraphml" type="button" class="btn btn-secondary fa fa-save" data-toggle="tooltip" title="Save as graphml"></button>
-        <button id="saveFileJson" type="button" class="btn btn-secondary fa fa-save" data-toggle="tooltip" title="Save as json"></button>
+        <button id="openFile" type="button" class="btn btn-secondary  fa fa-folder-open" data-toggle="tooltip" title="Load graphml, tsv or json file"></button>
+        <div class="btn-group" role="group">
+          <button id="btnGroupDrop1" type="button" class="btn btn-secondary fa fa-save" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">   </button>
+          <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+            <a id="saveFileGraphml" class="dropdown-item" href="#">Save as graphml</a>
+            <a id="saveFileJson" class="dropdown-item" href="#">Save as json</a>
+          </div>
+        </div>
         <button id="saveJPG" type="button" class="btn btn-secondary fa fa-image" data-toggle="tooltip" title="Save as JPG"></button>
         <button id="openInfoModal" type="button" class="btn btn-secondary fa fa-info-circle" data-toggle="modal" data-target="#infoModal" title="Info" ></button>
       </div>
@@ -155,6 +160,18 @@
                         </div>
                       </td>							
                     </tr>
+                    <tr><td class="align-middle"><span class="ml-1">Node Repulsion</span></td>
+                      <td><div>
+                          <input type="number" id="fcose_nodeRepulsion" min="0" max="10000" value="4500" step="100">
+                        </div>
+                      </td>							
+                    </tr>
+                    <tr><td class="align-middle"><span class="ml-1">Ideal Edge Length</span></td>
+                      <td><div>
+                          <input type="number" id="fcose_idealEdgeLength" min="0" max="200" value="50" step="5">
+                        </div>
+                      </td>							
+                    </tr>                                        
                     <tr><td class="align-middle"><span class="ml-1">Incremental Cooling Factor</span></td>
                       <td><div>
                           <input type="number" id="fcose_initialEnergyOnIncremental" min="0" max="1" value="0.3" step="0.01">
@@ -205,6 +222,18 @@
                         </div>
                       </td>							
                     </tr>
+                    <tr><td class="align-middle"><span class="ml-1">Node Repulsion</span></td>
+                      <td><div>
+                          <input type="number" id="cose_nodeRepulsion" min="0" max="10000" value="4500" step="100">
+                        </div>
+                      </td>							
+                    </tr>
+                    <tr><td class="align-middle"><span class="ml-1">Ideal Edge Length</span></td>
+                      <td><div>
+                          <input type="number" id="cose_idealEdgeLength" min="0" max="200" value="50" step="5">
+                        </div>
+                      </td>							
+                    </tr>                    
                     <tr><td class="align-middle"><span class="ml-1">initialEnergyOnIncremental</span></td>
                       <td><div>
                           <input type="number" id="cose_initialEnergyOnIncremental" min="0" max="1" value="0.3" step="0.01">
