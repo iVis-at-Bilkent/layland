@@ -1,14 +1,12 @@
 import $ from 'jquery';
 
-let layoutProperties = {
-
-};
+let layoutProperties = {};
 
 let defaultFcoseProperties = {
   name: "fcose",
   quality: "default",
   randomize: true,
-  packComponents: true,  
+  packComponents: true,
   uniformNodeDimensions: false,
   animate: true,
   tile: true,
@@ -41,27 +39,49 @@ let defaultColaProperties = {
   initialEnergyOnIncremental: 0.3
 };
 
+let defaultCircleProperties = {
+  name: "circle",
+  animate: "end",
+  animationDuration: 1000,
+}
+
+let defaultGridProperties = {
+  name: "grid",
+  animate: "end",
+  animationDuration: 1000,
+}
+
 let currentFcoseProperties = $.extend(true, {}, defaultFcoseProperties);
 let currentCoseProperties = $.extend(true, {}, defaultCoseProperties);
 let currentColaProperties = $.extend(true, {}, defaultColaProperties);
+let currentCircleProperties = $.extend(true, {}, defaultCircleProperties);
+let currentGridProperties = $.extend(true, {}, defaultGridProperties);
 
-layoutProperties.getFcoseProperties = function() {
+layoutProperties.getFcoseProperties = function () {
   return currentFcoseProperties;
 };
 
-layoutProperties.getCoseProperties = function() {
+layoutProperties.getCoseProperties = function () {
   return currentCoseProperties;
 };
 
-layoutProperties.getColaProperties = function() {
+layoutProperties.getColaProperties = function () {
   return currentColaProperties;
 };
 
-layoutProperties.setFcoseProperty = function(property, value) {
+layoutProperties.getCircleProperties = function () {
+  return currentCircleProperties;
+};
+
+layoutProperties.getGridProperties = function () {
+  return currentGridProperties;
+};
+
+layoutProperties.setFcoseProperty = function (property, value) {
   currentFcoseProperties[property] = value;
 };
 
-layoutProperties.setCurrentProperties = function() {
+layoutProperties.setCurrentProperties = function () {
   // fcose properties
   let fcoseQuality = "default";
   if (document.getElementById("fcose_quality").selectedIndex === 0) {
@@ -70,6 +90,7 @@ layoutProperties.setCurrentProperties = function() {
   else if (document.getElementById("fcose_quality").selectedIndex === 2) {
     fcoseQuality = "proof";
   }
+
   currentFcoseProperties.quality = fcoseQuality;
   currentFcoseProperties.randomize = document.getElementById("fcose_randomize").checked;
   currentFcoseProperties.packComponents = document.getElementById("fcose_packComponents").checked;
@@ -88,6 +109,7 @@ layoutProperties.setCurrentProperties = function() {
   else if (document.getElementById("cose_quality").selectedIndex === 2) {
     coseQuality = "proof";
   }
+
   currentCoseProperties.quality = coseQuality;
   currentCoseProperties.randomize = document.getElementById("cose_randomize").checked;
   currentCoseProperties.uniformNodeDimensions = document.getElementById("cose_uniformNodeDimensions").checked;
@@ -95,11 +117,16 @@ layoutProperties.setCurrentProperties = function() {
   currentCoseProperties.tile = document.getElementById("cose_tile").checked;
   currentCoseProperties.nodeRepulsion = parseFloat(document.getElementById("cose_nodeRepulsion").value);
   currentCoseProperties.idealEdgeLength = parseFloat(document.getElementById("cose_idealEdgeLength").value);
-  currentCoseProperties.initialEnergyOnIncremental = parseFloat(document.getElementById("cose_initialEnergyOnIncremental").value);  
+  currentCoseProperties.initialEnergyOnIncremental = parseFloat(document.getElementById("cose_initialEnergyOnIncremental").value);
+
+  // circle properties
+  currentCircleProperties.animate = document.getElementById("circle_animate").checked ? "end" : false;
+
+  // grid properties 
+  currentGridProperties.animate = document.getElementById("grid_animate").checked ? "end" : false;
 };
 
-
-layoutProperties.setModalValues = function() {
+layoutProperties.setModalValues = function () {
   // fcose properties
   let fcoseSelectedIndex;
   if (currentFcoseProperties.quality == "draft") {
@@ -111,6 +138,7 @@ layoutProperties.setModalValues = function() {
   else {
     fcoseSelectedIndex = 2;
   }
+
   document.getElementById("fcose_quality").selectedIndex = fcoseSelectedIndex;
   document.getElementById("fcose_randomize").checked = currentFcoseProperties.randomize;
   document.getElementById("fcose_packComponents").checked = currentFcoseProperties.packComponents;
@@ -132,11 +160,12 @@ layoutProperties.setModalValues = function() {
   else {
     coseSelectedIndex = 2;
   }
+
   document.getElementById("cose_quality").selectedIndex = coseSelectedIndex;
   document.getElementById("cose_randomize").checked = currentCoseProperties.randomize;
   document.getElementById("cose_uniformNodeDimensions").checked = currentCoseProperties.uniformNodeDimensions;
   let animate;
-  if(currentCoseProperties.animate == "end")
+  if (currentCoseProperties.animate == "end")
     animate = true;
   else
     animate = false;
@@ -145,6 +174,20 @@ layoutProperties.setModalValues = function() {
   document.getElementById("cose_nodeRepulsion").value = currentCoseProperties.nodeRepulsion;
   document.getElementById("cose_idealEdgeLength").value = currentCoseProperties.idealEdgeLength;
   document.getElementById("cose_initialEnergyOnIncremental").value = currentCoseProperties.initialEnergyOnIncremental;
+
+  // circle properties
+  if (currentCircleProperties.animate == "end")
+    animate = true;
+  else
+    animate = false;
+  document.getElementById("circle_animate").checked = animate;
+
+  // grid properties
+  if (currentGridProperties.animate == "end")
+    animate = true;
+  else
+    animate = false;
+  document.getElementById("grid_animate").checked = animate;
 };
 
-export {layoutProperties};
+export { layoutProperties };
